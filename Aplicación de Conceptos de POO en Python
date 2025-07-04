@@ -1,0 +1,58 @@
+# Clase base: Persona
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre       # Atributo público
+        self.edad = edad           # Atributo público
+
+    def mostrar_info(self):
+        print(f"Nombre: {self.nombre}, Edad: {self.edad}")
+
+# Clase derivada: Empleado (hereda de Persona)
+class Empleado(Persona):
+    def __init__(self, nombre, edad, salario):
+        super().__init__(nombre, edad)  # Llamamos al constructor de Persona
+        self.__salario = salario        # Atributo privado (encapsulado)
+
+    # Método para acceder al salario (encapsulamiento)
+    def obtener_salario(self):
+        return self.__salario
+
+    # Método para modificar el salario de forma segura
+    def establecer_salario(self, nuevo_salario):
+        if nuevo_salario > 0:
+            self.__salario = nuevo_salario
+        else:
+            print("Error: El salario debe ser positivo.")
+
+    # Método sobrescrito (polimorfismo)
+    def mostrar_info(self):
+        print(f"Empleado: {self.nombre}, Edad: {self.edad}, Salario: ${self.__salario}")
+
+# Clase derivada: Gerente (también hereda de Persona)
+class Gerente(Empleado):
+    def __init__(self, nombre, edad, salario, departamento):
+        super().__init__(nombre, edad, salario)
+        self.departamento = departamento
+
+    # Método sobrescrito (polimorfismo)
+    def mostrar_info(self):
+        print(f"Gerente: {self.nombre}, Edad: {self.edad}, Salario: ${self.obtener_salario()}, Departamento: {self.departamento}")
+
+
+# DEMOSTRACIÓN DEL PROGRAMA
+
+# Instanciamos objetos
+persona1 = Persona("Luis", 30)
+empleado1 = Empleado("Ana", 25, 1500)
+gerente1 = Gerente("Carlos", 40, 3000, "Ventas")
+
+# Mostramos información (polimorfismo en acción)
+persona1.mostrar_info()
+empleado1.mostrar_info()
+gerente1.mostrar_info()
+
+# Probamos la encapsulación
+print("\nSalario actual:", empleado1.obtener_salario())
+empleado1.establecer_salario(2000)
+print("Nuevo salario:", empleado1.obtener_salario())
+empleado1.establecer_salario(-500)  # Intento fallido
